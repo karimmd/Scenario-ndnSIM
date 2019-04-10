@@ -1,0 +1,61 @@
+#include "ControllerApp.h"
+
+#include "ns3/log.h"
+
+#include "ns3/ndnSIM/helper/ndn-fib-helper.hpp"
+
+NS_LOG_COMPONENT_DEFINE("ControllerApp");
+
+namespace ns3 {
+
+// Necessary if you are planning to use ndn::AppHelper
+NS_OBJECT_ENSURE_REGISTERED(ControllerApp);
+
+TypeId
+ControllerApp::GetTypeId()
+{
+  static TypeId tid = TypeId("ControllerApp")
+  .SetParent<ndn::App>()
+  .AddConstructor<ControllerApp>();
+
+  return tid;
+}
+
+ControllerApp::ControllerApp()
+{
+}
+
+void
+ControllerApp::OnInterest(std::shared_ptr<const ndn::Interest> interest)
+{
+  ndn::App::OnInterest(interest); // forward call to perform app-level tracing
+  // do nothing else (receive interest from consumer)
+
+  NS_LOG_DEBUG("Do nothing for incoming interest for" << interest->getName());
+}
+
+void
+ControllerApp::StartApplication()
+{
+  App::StartApplication();
+
+  // equivalent to setting interest filter for "/prefix" prefix
+  ndn::FibHelper::AddRoute(GetNode(), "/prefix/world", m_face, 0);
+  ndn::FibHelper::AddRoute(GetNode(), "/prefix/china", m_face, 0);
+  
+  /*
+  //ndn::FibHelper::AddRoute("C1", "/prefix/hello/world", "R1", 1);
+
+  ndn::FibHelper::AddRoute("C1", "/prefix/world", "R3", 1);
+  ndn::FibHelper::AddRoute("R3", "/prefix/hello/world", "R4", 1);
+  ndn::FibHelper::AddRoute("R4", "/prefix/hello/world", "P1", 1);
+  */
+}
+
+void
+ControllerApp::StopApplication()
+{
+  App::StopApplication();
+}
+
+} // namespace ns3

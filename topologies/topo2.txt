@@ -1,0 +1,56 @@
+# any empty lines and lines starting with '#' symbol is ignored
+#
+# The file should contain exactly two sections: router and link, each starting with the corresponding keyword
+#
+# router section defines topology nodes and their relative positions (e.g., to use in visualizer)
+router
+
+# each line in this section represents one router and should have the following data
+# node     comment          yPos    xPos
+
+C1        CONSUMER          3       1
+P1        PRODUCER          3       11
+
+R0        CONTROLLER        8       6
+
+R1        NODE              3       4
+R2        NODE              3       8
+R3        NODE              1       4
+R4        NODE              1       8
+R5        NODE              5       4
+R6        NODE              5       8
+
+
+# Note that `node` can be any string. It is possible to access to the node by name using Names::Find, see examples.
+
+# link section defines point-to-point links between nodes and characteristics of these links
+link
+
+# Each line should be in the following format (only first two are required, the rest can be omitted)
+
+# srcNode   dstNode     bandwidth   metric  delay   queue
+
+# bandwidth: link bandwidth
+
+# metric: routing metric
+
+# delay:  link delay
+
+# queue:  MaxPackets for transmission queue on the link (both directions)
+
+
+C1       R1     1Mbps     1    10ms     10
+R1       R2     1Mbps     1    10ms     10
+R2       P1     1Mbps     1    10ms     10
+C1       R3     1Mbps     1    10ms     10
+R3       R4     1Mbps     1    10ms     10
+R4       P1     1Mbps     1    10ms     10
+C1       R5     1Mbps     1    10ms     10
+R5       R6     1Mbps     1    10ms     10
+R6       P1     1Mbps     1    10ms     10
+R0       R1     1Mbps     1    10ms     10
+R0       R2     1Mbps     1    10ms     10
+R0       R3     1Mbps     1    10ms     10
+R0       R4     1Mbps     1    10ms     10
+R0       R5     1Mbps     1    10ms     10
+R0       R6     1Mbps     1    10ms     10
