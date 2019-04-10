@@ -1,5 +1,25 @@
-#include <ndn-cxx/data.hpp>
-#include <ndn-cxx/encoding/tlv.hpp>
+/* -*-  Mode: C++; c-file-style: "gnu"; indent-tabs-mode:nil; -*- */
+/*
+ * Copyright (c) 2019 Beijing Institute of Technology
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation;
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ * Author:  <email@email.com>
+ */
+
+#ifndef CONTROLLER_APP_H_
+#define CONTROLLER_APP_H_
 
 #include "ns3/ndnSIM-module.h"
 #include "ns3/integer.h"
@@ -12,6 +32,8 @@
 #include "ns3/callback.h"
 #include "ns3/traced-callback.h"
 #include "ns3/boolean.h"
+#include "ns3/names.h"
+
 
 #include "apps/ndn-app.hpp"
 #include "NFD/rib/rib-manager.hpp"
@@ -57,30 +79,21 @@ protected:
   OnInterest(shared_ptr<const Interest> interest);
 
   virtual void
-  OnData(shared_ptr<const Data> contentObject);
+  OnData(shared_ptr<const Data> data);
 
 private:
+  Name m_postfix;
+  uint32_t m_signature;
+  Name m_keyLocator;
   Name m_prefix;
-
-protected:
-  Ptr<UniformRandomVariable> m_rand; ///< @brief nonce generator
-
-  uint32_t m_seq;      ///< @brief currently requested sequence number
-  uint32_t m_seqMax;   ///< @brief maximum number of sequence number
-  EventId m_sendEvent; ///< @brief EventId of pending "send packet" event
-  Time m_retxTimer;    ///< @brief Currently estimated retransmission timer
-  EventId m_retxEvent; ///< @brief Event to check whether or not retransmission should be performed
-
-  Ptr<RttEstimator> m_rtt; ///< @brief RTT estimator
-
-  Time m_offTime;          ///< \brief Time interval between packets
-  Name m_interestName;     ///< \brief NDN Name of the Interest (use Name)
-  Time m_interestLifeTime; ///< \brief LifeTime for interest packet
-
-  
-
+  uint32_t m_virtualPayloadSize;
+  Time m_freshness;
+  uint32_t m_seq;
 };
 
 
 } //namespace ndn
 } // namespace ns3
+
+
+#endif  //CONTROLLER_APP_H_

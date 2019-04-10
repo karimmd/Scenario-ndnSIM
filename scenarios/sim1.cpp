@@ -25,7 +25,7 @@ main(int argc, char* argv[])
 
   // Reading a Topology File from a given directory
   AnnotatedTopologyReader topologyReader("", 25);
-  topologyReader.SetFileName("/home/usery/ndnSIM/experiment01/topologies/topo2.txt");
+  topologyReader.SetFileName("/home/userx/ndnSIM/experiment01/topologies/topo2.txt");
   topologyReader.Read();
 
   // Install NDN stack on all nodes
